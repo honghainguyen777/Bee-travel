@@ -1,0 +1,27 @@
+<h1 class="text-center">{{username}}'s memories</h1>
+ 
+{{#if memories.length}}
+<div class="container">
+ <div class="row">
+  {{#each memories}}
+
+    <div class="col-lg-4 col-md-6 col-sm-12 pb-3">
+      <div class="card ">
+        <img class="card-img-top" src="{{imageUrl}}" alt="city">
+        <div class="card-body bg-secondary d-flex justify-content-center m-0 p-0">
+            <h5 class="card-title text-white pt-2 text-center pl-1 pr-1">{{ city.name }}</h5>
+            <a href="/memories/{{_id}}" class="btn btn-primary bg-danger">View Story</a>
+        </div>
+      </div>
+    </div>
+    
+  {{/each}}
+  </div>
+  </div>
+{{else}}
+  <p class="text-center">Ups! It seems like you have not visted any city yet!</p>;
+  <p class="text-center">Visted? Then search for the city and add it as visited -> start to add stories to your memory :D</p>
+{{/if}}
+
+
+
