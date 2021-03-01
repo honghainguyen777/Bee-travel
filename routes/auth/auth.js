@@ -34,23 +34,27 @@ router.get(
 //     res.render("auth/signup");
 // });
 
+router.get('/current_user', (req, res) => {
+    res.send(req.user);
+});
+
 router.post('/signup', (req, res, next) => {
     const { username, password, firstName, lastName, email, confirmation} = req.body;
     if (password.length < 8) {
-        return res.json({ message: 'Your password has to be 8 chars min', success: 0});
+        return res.json({ message: 'Your password has to be 8 chars min', success: 0, user: null});
     }
     if (username === '') {
-        res.json({ message: 'Your username cannot be empty', success: 0});
+        res.json({ message: 'Your username cannot be empty', success: 0, user: null});
         return;
     }
     if (password !== confirmation) {
-        res.json({ message: 'Passwords not match', success: 0});
+        res.json({ message: 'Passwords not match', success: 0, user: null});
     }
 
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB !== null) {
-                res.json({ message: 'The username already exists', success: 0});
+                res.json({ message: 'The username already exists', success: 0, user: null});
             } else {
                 const salt = bcrypt.genSaltSync(bcryptSalt);
                 const hash = bcrypt.hashSync(password, salt)
@@ -59,7 +63,7 @@ router.post('/signup', (req, res, next) => {
                         console.log(userFromDB);
                         //res.redirect('/');
                         req.session.user = userFromDB;
-                        res.json({message: "success", success: 1});
+                        res.json({message: "success", success: 1, user: userFromDB});
                     });
             }
         })
@@ -82,14 +86,14 @@ router.post('/login', (req, res) => {
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB === null) {
-                return res.json({message: 'Invalid credentials', success: 0});
+                return res.json({message: 'Invalid credentials', success: false, user: null});
                 // return res.render('auth/login', { message: 'Invalid credentials' });
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.json({message: "success", success: 1});
+                res.json({user: userFromDB});
             } else {
-                return res.json({message: 'Invalid credentials', success: 0});
+                return res.json({message: 'Invalid credentials', success: false, user: null});
             }
         });
 });
