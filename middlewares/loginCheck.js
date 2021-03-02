@@ -4,7 +4,7 @@ const loginCheck = () => {
       if (req.session.user) {
           next();
       } else {
-          res.redirect('/login');
+          res.json({message: "unauthorized"});
       }
   };
 };

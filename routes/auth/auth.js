@@ -40,8 +40,8 @@ router.get('/current_user', (req, res) => {
 
 router.post('/signup', (req, res, next) => {
     const { username, password, firstName, lastName, email, confirmation} = req.body;
-    if (password.length < 8) {
-        return res.json({ message: 'Your password has to be 8 chars min', success: 0, user: null});
+    if (password.length < 6) {
+        return res.json({ message: 'Your password has to be 6 chars min', success: 0, user: null});
     }
     if (username === '') {
         res.json({ message: 'Your username cannot be empty', success: 0, user: null});
@@ -63,7 +63,7 @@ router.post('/signup', (req, res, next) => {
                         console.log(userFromDB);
                         //res.redirect('/');
                         req.session.user = userFromDB;
-                        res.json({message: "success", success: 1, user: userFromDB});
+                        res.json({success: 1, user: userFromDB});
                     });
             }
         })

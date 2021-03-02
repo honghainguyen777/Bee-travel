@@ -4,6 +4,12 @@ const FavoriteCity = require('../../models/FavoriteCity');
 const Trip = require('../../models/Trip');
 const { loginCheck } = require('../../middlewares/loginCheck');
 const helpers = require('../../helpers/helpers');
+const City = require('../../models/City');
+
+// later getting image here
+router.get('/image', loginCheck(), async (req, res) => {
+  // cityCopy.imageUrl =  await helpers.getImage(cityCopy);
+});
 
 router.get('/', loginCheck(), async (req, res) => {
   // later change it to user specific
@@ -11,29 +17,88 @@ router.get('/', loginCheck(), async (req, res) => {
   let favoriteCities;
   try {
     favoriteCities = await FavoriteCity.find({user: user._id}).populate('city');
-    await favoriteCities.forEach(async (favoriteCity, index) => {
-      favoriteCities[index].imageUrl = await helpers.getImage(favoriteCity.city);
-    });
+    favoriteCities = favoriteCities.map( city => city.city);
+    console.log(favoriteCities);
+    res.json({favoriteCities});
   } catch (error) {
     console.log(error);
-    res.render('error');
+    res.json({message: "something wrong in the backend"});
   }
+});
 
-  res.render('favorites/favoriteCities', {favoriteCities, username: user.username});
+
+
+
+router.post('/delete', loginCheck(), async (req, res) => {
+  const user = req.session.user;
+  const cityId = req.body.cityId;
+  console.log("userid: ", user._id, "city: id", cityId);
+  try {
+    const removedCity = await FavoriteCity.findOneAndRemove({user: user._id, city: cityId});
+    if (removedCity) {
+      res.json({success: true});
+    } else {
+      res.json({success: false});
+    }
+  } catch (error) {
+    res.json({success: false});
+  }
 });
 
 router.post('/', loginCheck(), async (req, res) => {
+  console.log(req.body);
   const user = req.session.user;
-  // later change it to user specific
-  console.log(req.body.id);
-  // relation with user id later
+  const cityId = req.body.cityId;
   try {
-    await FavoriteCity.create({user: user._id, city: req.body.id, imageUrl: req.body.image});
-    res.redirect('/favorites');
-  } catch (error) {
+    let existingFavoriteCity = await FavoriteCity.findOne({user: user._id, city: cityId});
+    if (existingFavoriteCity) {
+      res.json({success: false});
+      return;
+    }
+  } catch (err) {
     console.log(error);
-    res.render('error');
+    res.json({success: false});
+    return;
   }
+  // try {
+  //   // does not know why is is not populated
+  //   let addedFavoriteCity = await FavoriteCity.create({user: user._id, city: cityId}).populate('city');
+  //   // let cities = addedFavoriteCity.populate('city').populate.exec();
+  //   console.log(addedFavoriteCity);
+  //   // addedFavoriteCity.imageUrl = await helpers.getImage(addedFavoriteCiy.city);
+  //   res.json({addedFavoriteCity: addedFavoriteCity.city, message});
+  // } catch(error) {
+  //   message = "Something wrong with the backend";
+  //   console.log(error);
+  //   res.json({message});
+  // }
+  FavoriteCity.create({user: user._id, city: cityId})
+    .then(city => {
+      City.findById(city.city)
+        .then(city => res.json({city, success: true}))
+        .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
 });
+
+// router.delete('/', loginCheck(), async (req, res) => {
+//   console.log(req.body);
+//   const user = req.session.user;
+//   const cityId = req.body.cityId;
+//   let message;
+//   try {
+//     let existingFavoriteCity = await FavoriteCity.findOneAndDelete({user: user._id, city: cityId});
+//     console.log(existingFavoriteCity);
+//     // if (existingFavoriteCity) {
+//     //   res.json({message});
+//     //   return;
+//     // }
+//   } catch (err) {
+//     message = "Something wrong with the backend";
+//     console.log(error);
+//     res.json({message});
+//     return;
+//   }
+// });
 
 module.exports = router;

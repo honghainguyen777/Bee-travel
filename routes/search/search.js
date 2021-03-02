@@ -14,14 +14,14 @@ router.get('/', (req, res) => {
 });
 
 // request from frontend js via axios
-router.get('/searchInit', (req, res) => {
-  Top10City.find()
-    .populate('city')
-    .then(cities => {
-      cities = cities.map(city => city.city);
-      res.json(cities);
-    })
-    .catch(error => console.log(error)); // later error page
+router.get('/searchInit', async (req, res) => {
+  try {
+    let cities = await Top10City.find().populate('city');
+    cities = cities.map(city => city.city);
+    res.json(cities);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post('/', async (req, res) => {

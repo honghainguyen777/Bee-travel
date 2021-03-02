@@ -21,7 +21,7 @@ const tripSchema = new Schema({
   summary: String,
   rating: Number,
   img_default: String,
-});
+},  { timestamps: true });
 
 const Trip = mongoose.model('Trip', tripSchema);
 

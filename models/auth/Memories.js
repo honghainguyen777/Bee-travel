@@ -21,7 +21,7 @@ const memoriesSchema = new Schema({
         imgPath: String,
         publicId: String,
     }],
-});
+},  { timestamps: true });
 
 const Memories = mongoose.model('Memory', memoriesSchema);
 module.exports = Memories;

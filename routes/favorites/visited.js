@@ -48,13 +48,14 @@ router.post('/:id', loginCheck(), async (req, res) => {
       trip.memory = memory._id;
       await trip.save();
       // res.redirect('/visited');
-      res.redirect(`/memories/${memory._id}`);
+      res.json({success: true, memory_id: memory._id});
+      // res.redirect(`/memories/${memory._id}`);
     } catch (error) {
-      res.render('error');
+      res.json({success: false});
     }
   } catch (error) {
     console.log(error);
-    res.render('error');
+    res.json({success: false});
   }
 });
 

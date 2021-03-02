@@ -10,8 +10,7 @@ const favoriteCitySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'City'
   },
-  imageUrl: String
-});
+},  { timestamps: true });
 
 const FavoriteCity = mongoose.model('FavoriteCity', favoriteCitySchema);
 
