@@ -18,7 +18,7 @@ router.get('/', loginCheck(), async (req, res) => {
   try {
     favoriteCities = await FavoriteCity.find({user: user._id}).populate('city');
     favoriteCities = favoriteCities.map( city => city.city);
-    console.log(favoriteCities);
+    // console.log(favoriteCities);
     res.json({favoriteCities});
   } catch (error) {
     console.log(error);
@@ -32,7 +32,7 @@ router.get('/', loginCheck(), async (req, res) => {
 router.post('/delete', loginCheck(), async (req, res) => {
   const user = req.session.user;
   const cityId = req.body.cityId;
-  console.log("userid: ", user._id, "city: id", cityId);
+  // console.log("userid: ", user._id, "city: id", cityId);
   try {
     const removedCity = await FavoriteCity.findOneAndRemove({user: user._id, city: cityId});
     if (removedCity) {
@@ -46,7 +46,7 @@ router.post('/delete', loginCheck(), async (req, res) => {
 });
 
 router.post('/', loginCheck(), async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const user = req.session.user;
   const cityId = req.body.cityId;
   try {
@@ -80,25 +80,5 @@ router.post('/', loginCheck(), async (req, res) => {
     })
     .catch(error => console.log(error));
 });
-
-// router.delete('/', loginCheck(), async (req, res) => {
-//   console.log(req.body);
-//   const user = req.session.user;
-//   const cityId = req.body.cityId;
-//   let message;
-//   try {
-//     let existingFavoriteCity = await FavoriteCity.findOneAndDelete({user: user._id, city: cityId});
-//     console.log(existingFavoriteCity);
-//     // if (existingFavoriteCity) {
-//     //   res.json({message});
-//     //   return;
-//     // }
-//   } catch (err) {
-//     message = "Something wrong with the backend";
-//     console.log(error);
-//     res.json({message});
-//     return;
-//   }
-// });
 
 module.exports = router;
