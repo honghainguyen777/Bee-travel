@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     // this for later
     const data = (await axios.get(`https://api.teleport.org/api/urban_areas/slug:${city.name.toLowerCase()}/scores/`)).data;
     cityScores = data.categories;
-    summary = data.summary.replace(/Teleport/gi, "Travel-Planning");
+    summary = data.summary.replace(/Teleport/gi, "Bee-Travel");
   } catch (error) {
     summary = `Unfortunately, we can not summarize a great city like ${city.name} in one sentence. Now is the time for you to learn about the city in several other sources`;
   }
