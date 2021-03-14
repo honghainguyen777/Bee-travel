@@ -1,0 +1,53 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    min-height: 100vh;
+}
+
+a {
+    color: #00b7ff;
+    text-decoration: none;
+}
+
+
+.link-btn {
+    background-color: rgb(67, 163, 230);
+    color: white;
+    font-family: Roboto Condensed;
+    font-size: 1.3em;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 10px;
+    border-radius: 8px;
+  }
+
+  .app-container {
+    /* background-image: url('./background-search.jpg'); */
+    background-color: #E5E5E5;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .content-container {
+      position: absolute;
+      top: 75px;
+      width: 100%;
+      height: 100vh;
+  }
+
+  .content-container-overscreen {
+      position: absolute;
+      margin-top: 75px;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+  }
+
+.content-container-overscreen::-webkit-scrollbar {
+    display: none;
+}

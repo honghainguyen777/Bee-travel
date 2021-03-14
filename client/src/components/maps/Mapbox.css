@@ -1,0 +1,68 @@
+#map {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+.card-city {
+    background-color: white;
+    border: 1px solid #e7e7ec;
+    border-radius: 8px;
+    box-shadow: 7px 6px 36px -15px rgb(109 109 151 / 40%);
+}
+
+#search-form {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+}
+
+#search-form input {
+    width: 400px;
+}
+
+
+.container-city {
+    width: 100%;
+    height: 100%;
+}
+
+.city-header .city-header-name {
+    text-decoration: none;
+}
+
+.city-header h4 {
+    color: #232740;
+    font-size: 20px !important;
+}
+
+.city-header p {
+    font-size: 16px !important;
+}
+
+.heart {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.card-city .button-removed {
+    border: none;
+    background: none;
+    background-color: none;
+    text-decoration: underline;
+    font-size: 18px;
+    color: black;
+    padding: 8px;
+}
+
+.card-city .button-hidden {
+    border: none;
+    background: none;
+    background-color: none;
+    padding: 0;
+    margin: 0;
+}
