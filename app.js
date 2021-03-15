@@ -124,27 +124,27 @@ app.locals.title = `${capitalized(projectName)}`;
 
 // 👇 Start handling routes here
 const index = require("./routes/index");
-app.use("/", index);
+app.use("/api", index);
 
 const auth = require("./routes/auth/auth");
-app.use("/auth", auth);
+app.use("/api/auth", auth);
 
 const memories = require("./routes/memories/memories");
-app.use("/memories", memories);
+app.use("/api/memories", memories);
 const planning = require("./routes/planning/planning");
-app.use("/planning", planning);
+app.use("/api/planning", planning);
 
 const search = require("./routes/search/search");
-app.use("/search", search);
+app.use("/api/search", search);
 
 const details = require("./routes/cityDetails/cityDetails");
-app.use("/details", details);
+app.use("/api/details", details);
 
 const favorites = require("./routes/favorites/favorites");
-app.use("/favorites", favorites);
+app.use("/api/favorites", favorites);
 
 const vistedTrips = require("./routes/favorites/visited");
-app.use("/visited", vistedTrips);
+app.use("/api/visited", vistedTrips);
 
 const path = require('path');
 app.use(express.static(path.join(__dirname, "/client/build")));
