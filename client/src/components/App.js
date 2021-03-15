@@ -34,7 +34,7 @@ class App extends React.Component {
                 <Navbar />
                 <BrowserRouter>
                     <div className="content-container">
-                        <Route exact path="/" component={Home} />
+                        <Route exact path="/" component={Mapbox} />
                         <Route exact path="/search" component={Search} />
                         <Route exact path="/map" component={Mapbox} />
                         <Route exact path="/memories/:id" component={Memory} />
