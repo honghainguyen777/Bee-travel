@@ -9,12 +9,12 @@ import { FETCH_USER, LOGIN, FETCH_CITIES,
 } from './types';
 
 export const fetchUser = () => async dispatch => {
-        const res = await axios.get('/auth/current_user');
+        const res = await axios.get('/api/auth/current_user');
         dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const login = (username, password) => async dispatch => {
-    const res = await axios.post('/auth/login', {username, password});
+    const res = await axios.post('/api/auth/login', {username, password});
     if (res.data.user) {
         dispatch({ type: SUCCESSFUL_LOGIN, payload: res.data });
     } else {
@@ -23,7 +23,7 @@ export const login = (username, password) => async dispatch => {
 };
 
 export const register = (username, password, firstName, lastName, email, confirmation) => async dispatch => {
-    const res = await axios.post('/auth/signup', {username, password, firstName, lastName, email, confirmation});
+    const res = await axios.post('/api/auth/signup', {username, password, firstName, lastName, email, confirmation});
     if (res.data.user) {
         dispatch({ type: SUCCESSFUL_LOGIN, payload: res.data });
     } else {
@@ -57,29 +57,29 @@ export const switchModalAction = (currentModal) => dispatch => {
 };
 
 export const fetchTop10Cities = () => async dispatch => {
-    const res = await axios.get('/search/searchInit');
+    const res = await axios.get('/api/search/searchInit');
     dispatch({ type: CITY_INIT, payload: res.data});
 };
 
 export const fetchCities = (query) => async dispatch => {
-    const res = await axios.post('/search', {query});
+    const res = await axios.post('/api/search', {query});
     dispatch({ type: FETCH_CITIES, payload: res.data});
 };
 
 
 // city details
 export const fetchCity = (id) => async dispatch => {
-    const res = await axios.get(`/details/${id}`);
+    const res = await axios.get(`/api/details/${id}`);
     dispatch({ type: FETCH_CITY, payload: res.data});
 };
 
 export const fetch7DayForcast = (id) => async dispatch => {
-    const res = await axios.get(`/details/${id}/7days`);
+    const res = await axios.get(`/api/details/${id}/7days`);
     dispatch({ type: FETCH_7DAYS_WEATHER, payload: res.data})
 };
 
 export const submitVisitedForm = ({fromDate, toDate, travellersNum, cost, summary, rating, image, cityId}) => async dispatch => {
-    const res = await axios.post(`/visited/${cityId}`, {
+    const res = await axios.post(`/api/visited/${cityId}`, {
         fromDate, toDate, travellersNum, cost, summary, rating, image
     });
     dispatch({ type: SUBMIT_VISITED_FORM , payload: res.data});
@@ -92,18 +92,18 @@ export const cityFormRedirect = () => dispatch => {
 
 // favorites route
 export const fetchFavoriteCities = () => async dispatch => {
-    const res = await axios.get('/favorites');
+    const res = await axios.get('/api/favorites');
     console.log("haha", res);
     dispatch({ type: FETCH_FARVORITE_CITIES, payload: res.data });
 };
 
 export const addFavoriteCity = (cityId) => async dispatch => {
-    const res = await axios.post('/favorites', {cityId});
+    const res = await axios.post('/api/favorites', {cityId});
     if (res.data.success) dispatch({ type: ADDED_FAVORITE_CITY, payload: res.data });
 };
 
 export const deleteFavoriteCity = (cityId, index) => async dispatch => {
     console.log(cityId);
-    const res = await axios.post('/favorites/delete', {cityId});
+    const res = await axios.post('/api/favorites/delete', {cityId});
     if (res.data.success) dispatch({ type: DELETED_FAVORITE_CITY, payload: {cityId, index} });
 };
