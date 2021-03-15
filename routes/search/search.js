@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   try {
     username = req.session.user.username;
   } catch (error) {}
-  res.render('search/search', {username});
+  res.json(username);
 });
 
 // request from frontend js via axios

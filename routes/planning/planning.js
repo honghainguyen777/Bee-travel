@@ -17,7 +17,7 @@ router.get('/', loginCheck(), (req, res) => {
         .populate('city')
         .then(plans => {
             console.log(plans)
-            res.render('planning/plans', { user: req.session.user, plans, username: user.username});
+            res.json({ user: req.session.user, plans, username: user.username});
         })
         .catch(err => {
             console.log(err);
@@ -29,11 +29,11 @@ router.get('/add', loginCheck(), (req, res, next) => {
     Favorite.find({ user: user._id })
         .populate('city')
         .then(cities => {
-            res.render('planning/add-plan', { user: req.session.user, cities });
+            res.json({ user: req.session.user, cities });
         })
         .catch(err => {
             console.log(err);
-        })
+        });
 });
 
 router.post('/add/:cityID', loginCheck(), (req, res) => {
@@ -48,7 +48,7 @@ router.post('/add/:cityID', loginCheck(), (req, res) => {
                 res.redirect('/planning');
               } catch (error) {
                 console.log(error);
-                res.render('error');
+                res.json({message: "There is something wrong"});
               }
         })
         .catch(err => {
@@ -63,19 +63,19 @@ router.get('/:id', loginCheck(), (req, res, next) => {
         .populate('city')
         .then(plan => {
             console.log(plan);
-            res.render('planning/plan', { plan, username: user.username })
+            res.json({ plan, username: user.username });
         })
         .catch(err => {
             console.log("erro:", err);
             next(err);
-        })
+        });
 })
 
 router.get('/:id/delete', (req, res) => {
     const user = req.session.user;
     Vacation.findOneAndDelete({ user: user._id, _id: req.params.id })
         .then(plan => {
-            res.redirect('/planning')
+            res.json({success: true});
         })
         .catch(err => {
             console.log(err);
@@ -87,7 +87,7 @@ router.get('/:id/edit', (req, res, next) => {
     const user = req.session.user;
     Vacation.findOne({ user: user._id, _id: req.params.id })
         .then(planFromDB => {
-            res.render('planning/edit', { city: planFromDB, username: user.username });
+            res.render({ city: planFromDB, username: user.username });
         })
         .catch(err => {
             console.log(err);
@@ -111,11 +111,11 @@ router.post('/:id/edit', (req, res) => {
 
         })
         .then(city => {
-            res.redirect(`/${city._id}`);
+            res.json(city);
         })
         .catch(err => {
             console.log(err);
-        })
+        });
 })
 
 module.exports = router;
