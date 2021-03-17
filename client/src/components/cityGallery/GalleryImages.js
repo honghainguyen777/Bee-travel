@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
     paddingTop: "7px",
-    paddingBottom: "20px"
+    paddingBottom: "20px",
   },
   gridList: {
     width: "100%",
@@ -29,33 +29,33 @@ const useStyles = makeStyles(theme => ({
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
     "&:hover": {
-      cursor: "pointer"
-    }
+      cursor: "pointer",
+    },
   },
   titleBar: {
     background:
       "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
+      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
   },
   icon: {
-    color: "white"
+    color: "white",
   },
   profile: {
     position: "absolute",
     top: "5px",
-    right: "15px"
+    right: "15px",
   },
   modal: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: "1rem"
-  }
+    padding: "1rem",
+  },
 }));
 
 export default function GalleryImages() {
@@ -77,8 +77,8 @@ export default function GalleryImages() {
   fetch(
     "https://api.unsplash.com/photos/?client_id=3bf8d40569267ba2a37d1270433ee9f5745a4a39e911b8ac97c87e26485c9d78&per_page=28"
   )
-    .then(res => res.json())
-    .then(data => setTiledData(data));
+    .then((res) => res.json())
+    .then((data) => setTiledData(data));
 
   return (
     <div className={classes.root}>
@@ -137,7 +137,7 @@ export default function GalleryImages() {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500
+          timeout: 500,
         }}
       >
         <Fade in={open}>

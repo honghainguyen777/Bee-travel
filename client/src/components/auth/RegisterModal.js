@@ -1,12 +1,22 @@
 import React, { Component } from "react";
-import { Modal, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { Modal, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 import "./Auth.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faKey, faSignInAlt, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import logo from '../nav/logo_transparent.png';
-import { login, register, closeRegisterModal, switchModalAction } from '../../actions';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faKey,
+  faSignInAlt,
+  faUser,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import logo from "../nav/logo_transparent.png";
+import {
+  login,
+  register,
+  closeRegisterModal,
+  switchModalAction,
+} from "../../actions";
 
 class RegisterModal extends Component {
   constructor(props) {
@@ -19,7 +29,7 @@ class RegisterModal extends Component {
       lastName: "",
       email: "",
       messagePW: "",
-      messageEmail: ""
+      messageEmail: "",
     };
     this.regexPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     this.regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -35,30 +45,54 @@ class RegisterModal extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
-    const { username, password, firstName, lastName, email, confirmation } = this.state;
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+      confirmation,
+    } = this.state;
     // if (!username || !password || !firstName || !lastName || !email || !confirmation) {
     //   this.setState({ message: "can not be empty"});
     //   return;
     // }
     if (password !== confirmation) {
-      this.setState({ messagePW: "Passwords do not match!"});
+      this.setState({ messagePW: "Passwords do not match!" });
       return;
     }
     if (!this.regexPW.test(password)) {
-      this.setState({ messagePW: "Password is not strong (at least 6 chars, one number, one lowercase and one uppercase letter!"});
+      this.setState({
+        messagePW:
+          "Password is not strong (at least 6 chars, one number, one lowercase and one uppercase letter!",
+      });
       return;
     }
     if (this.regexEmail.test(email)) {
-      this.setState({ messageEmail: "Please provide a valid email"});
+      this.setState({ messageEmail: "Please provide a valid email" });
       return;
     }
-    this.props.register(username, password, firstName, lastName, email, confirmation);
-    this.setState({ username: "", password: "", firstName: "", lastName: "", email: "", confirmation: ""});
+    this.props.register(
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+      confirmation
+    );
+    this.setState({
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      confirmation: "",
+    });
   }
 
   handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value, messagePW: "", messageEmail: ""});
+    this.setState({ [name]: value, messagePW: "", messageEmail: "" });
   }
 
   switchModal() {
@@ -68,9 +102,18 @@ class RegisterModal extends Component {
   render() {
     console.log(this.props.message);
     const messageError = (
-      <div className="alert alert-warning alert-dismissible fade show text-center" id="register-failed" role="alert">
+      <div
+        className="alert alert-warning alert-dismissible fade show text-center"
+        id="register-failed"
+        role="alert"
+      >
         <strong>{this.props.message}</strong>
-        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+        <button
+          type="button"
+          className="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -91,69 +134,141 @@ class RegisterModal extends Component {
           <Modal.Header closeButton>
             <div className="header-box w-100 d-flex justify-content-center flex-column align-items-center pl-4">
               <Modal.Title>Register Form</Modal.Title>
-              <img className="logo-auth" src={logo} alt="logo-bee-travel"/>
+              <img className="logo-auth" src={logo} alt="logo-bee-travel" />
             </div>
           </Modal.Header>
           <Modal.Body>
             {this.props.message ? messageError : null}
-            <form onSubmit={this.handleFormSubmit} className="login-form ml-5 mr-5" id="signupForm">
-            <div className="form-row">
-              <div className="col-md-6 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
+            <form
+              onSubmit={this.handleFormSubmit}
+              className="login-form ml-5 mr-5"
+              id="signupForm"
+            >
+              <div className="form-row">
+                <div className="col-md-6 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faUser} />
+                    </span>
+                  </div>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.firstName}
+                    type="text"
+                    className="form-control"
+                    name="firstName"
+                    placeholder="First Name"
+                    required
+                  />
                 </div>
-                <input onChange={this.handleChange} value={this.state.firstName} type="text" className="form-control" name="firstName" placeholder="First Name" required />
-              </div>
-              <div className="col-md-6 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUser} /></span>
+                <div className="col-md-6 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faUser} />
+                    </span>
+                  </div>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.lastName}
+                    type="text"
+                    className="form-control"
+                    name="lastName"
+                    placeholder="Last Name"
+                    required
+                  />
                 </div>
-                <input onChange={this.handleChange} value={this.state.lastName} type="text" className="form-control" name="lastName" placeholder="Last Name" required />
-              </div>
-              <div className="col-md-12 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faUserPlus} /></span>
+                <div className="col-md-12 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faUserPlus} />
+                    </span>
+                  </div>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.username}
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    placeholder="Username"
+                    minLength={6}
+                    required
+                  />
                 </div>
-                <input onChange={this.handleChange} value={this.state.username} type="text" className="form-control" name="username" placeholder="Username" minLength={6} required />
-              </div>
-              <div className="col-md-6 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
+                <div className="col-md-6 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faKey} />
+                    </span>
+                  </div>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    placeholder="Password"
+                    required
+                  />
                 </div>
-                <input onChange={this.handleChange} value={this.state.password} type="password" name="password" className="form-control" placeholder="Password" required />
-              </div>
-              <div className="col-md-6 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faKey} /></span>
+                <div className="col-md-6 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faKey} />
+                    </span>
+                  </div>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.confirmation}
+                    type="password"
+                    name="confirmation"
+                    className="form-control"
+                    placeholder="Confirmation"
+                    required
+                  />
                 </div>
-                <input onChange={this.handleChange} value={this.state.confirmation} type="password" name="confirmation" className="form-control" placeholder="Confirmation" required />
-              </div>
-              {this.state.messagePW ? <div className="alert alert-warning col-md-12 text-center" role="alert">{this.state.messagePW}</div> : null}
-              <div className="col-md-12 input-group form-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text field-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
+                {this.state.messagePW ? (
+                  <div
+                    className="alert alert-warning col-md-12 text-center"
+                    role="alert"
+                  >
+                    {this.state.messagePW}
+                  </div>
+                ) : null}
+                <div className="col-md-12 input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text field-icon">
+                      <FontAwesomeIcon icon={faEnvelope} />
+                    </span>
+                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    placeholder="Your email"
+                    required
+                  />
                 </div>
-                <input type="email" name="email" className="form-control" placeholder="Your email" required />
               </div>
-            </div>
-            {this.state.messageEmail ? <div className="alert alert-warning col-md-12 text-center" role="alert">{this.state.messageEmail}</div> : null}
-            <div className="justify-content-center pb-2 text-center">
-              <input type="checkbox" className="mr-3" required />I agree to the term of use
-            </div>
-            <div className="form-group text-center">
-              <button type="submit" className="btn btn-register">Register</button>
-            </div>
-          </form>
+              {this.state.messageEmail ? (
+                <div
+                  className="alert alert-warning col-md-12 text-center"
+                  role="alert"
+                >
+                  {this.state.messageEmail}
+                </div>
+              ) : null}
+              <div className="justify-content-center pb-2 text-center">
+                <input type="checkbox" className="mr-3" required />I agree to
+                the term of use
+              </div>
+              <div className="form-group text-center">
+                <button type="submit" className="btn btn-register">
+                  Register
+                </button>
+              </div>
+            </form>
 
-
-
-
-
-
-
-
-
-{/* 
+            {/* 
 
 
 
@@ -179,36 +294,48 @@ class RegisterModal extends Component {
             </form> */}
           </Modal.Body>
           <div className="row m-0 p-0">
-          <div className="col-4">
-            <hr />
+            <div className="col-4">
+              <hr />
+            </div>
+            <div className="col-4 text-center">
+              <p>Have Account?</p>
+            </div>
+            <div className="col-4">
+              <hr />
+            </div>
           </div>
-          <div className="col-4 text-center">
-            <p>Have Account?</p>
+          <div className="d-flex justify-content-center">
+            {/* <SignupModal /> */}
+            <button
+              type="button"
+              onClick={this.switchModal}
+              className="btn btn-secondary btn-login mb-3"
+            >
+              Login
+            </button>
           </div>
-          <div className="col-4">
-            <hr />
-          </div>
-        </div>
-        <div className="d-flex justify-content-center">
-        {/* <SignupModal /> */}
-        <button type="button" onClick={this.switchModal} className="btn btn-secondary btn-login mb-3">Login</button>
-        </div>
         </Modal>
       </>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     message: state.auth.messageRegister,
-    isModalOpen: state.auth.is_register_modal
+    isModalOpen: state.auth.is_register_modal,
   };
-}
+};
 
-export default connect(mapStateToProps, { login, register, closeRegisterModal, switchModalAction})(RegisterModal);
+export default connect(mapStateToProps, {
+  login,
+  register,
+  closeRegisterModal,
+  switchModalAction,
+})(RegisterModal);
 
-{/* <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalTitle" aria-hidden="true">
+{
+  /* <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -282,4 +409,5 @@ export default connect(mapStateToProps, { login, register, closeRegisterModal, s
         </form>
       </div>
     </div>
-  </div> */}
+  </div> */
+}

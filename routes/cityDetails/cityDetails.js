@@ -1,9 +1,9 @@
-const axios = require('axios');
-const router = require('express').Router();
-const City = require('../../models/City');
-const helpers = require('../../helpers/helpers');
+const axios = require("axios");
+const router = require("express").Router();
+const City = require("../../models/City");
+const helpers = require("../../helpers/helpers");
 
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   let username;
   try {
     username = req.session.user.username;
@@ -18,7 +18,11 @@ router.get('/:id', async (req, res) => {
   let summary;
   try {
     // this for later
-    const data = (await axios.get(`https://api.teleport.org/api/urban_areas/slug:${city.name.toLowerCase()}/scores/`)).data;
+    const data = (
+      await axios.get(
+        `https://api.teleport.org/api/urban_areas/slug:${city.name.toLowerCase()}/scores/`
+      )
+    ).data;
     cityScores = data.categories;
     summary = data.summary.replace(/Teleport/gi, "Bee-Travel");
   } catch (error) {
@@ -42,16 +46,22 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     weatherMessage = `Unfortunately, we do not have weather information available for ${city.name}`;
   }
-  
 
   // image of the city
   let imageUrl = await helpers.getImage(city);
 
-  res.json({city,summary, currentWeather, imageUrl, weatherMessage, username, currentDate});
+  res.json({
+    city,
+    summary,
+    currentWeather,
+    imageUrl,
+    weatherMessage,
+    username,
+    currentDate,
+  });
 });
 
-
-router.get('/:id/7days', async (req, res) => {
+router.get("/:id/7days", async (req, res) => {
   const city = await City.findById(req.params.id);
   let temps7Days;
   let message;
@@ -64,7 +74,7 @@ router.get('/:id/7days', async (req, res) => {
     message = "Unfortunately, no forcasted data";
   }
 
-  res.json({temps7Days, message});
+  res.json({ temps7Days, message });
 });
 
 module.exports = router;

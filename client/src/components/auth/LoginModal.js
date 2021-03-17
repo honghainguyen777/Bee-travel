@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Modal, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { Modal, Button } from "react-bootstrap";
+import { connect } from "react-redux";
 import "./Auth.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import logo from '../nav/logo_transparent.png';
-import { login, closeLoginModal, switchModalAction } from '../../actions';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import logo from "../nav/logo_transparent.png";
+import { login, closeLoginModal, switchModalAction } from "../../actions";
 
 class LoginModal extends Component {
   constructor(props) {
@@ -28,12 +28,12 @@ class LoginModal extends Component {
     event.preventDefault();
     const { username, password } = this.state;
     this.props.login(username, password);
-    this.setState({username: "", password: ""});
+    this.setState({ username: "", password: "" });
   }
 
   handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value});
+    this.setState({ [name]: value });
   }
 
   switchModal() {
@@ -41,11 +41,20 @@ class LoginModal extends Component {
   }
 
   render() {
-    console.log(this.props.isSuccessed, this.props.message)
+    console.log(this.props.isSuccessed, this.props.message);
     const messageError = (
-      <div className="alert alert-warning alert-dismissible fade show text-center" id="signin-failed" role="alert">
+      <div
+        className="alert alert-warning alert-dismissible fade show text-center"
+        id="signin-failed"
+        role="alert"
+      >
         <strong>{this.props.message}</strong>
-        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+        <button
+          type="button"
+          className="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -66,23 +75,47 @@ class LoginModal extends Component {
           <Modal.Header closeButton>
             <div className="header-box w-100 d-flex justify-content-center flex-column align-items-center pl-4">
               <Modal.Title>Login Form</Modal.Title>
-              <img className="logo-auth" src={logo} alt="logo-bee-travel"/>
+              <img className="logo-auth" src={logo} alt="logo-bee-travel" />
             </div>
           </Modal.Header>
           <Modal.Body>
             {this.props.message ? messageError : null}
-            <form onSubmit={this.handleFormSubmit} className="login-form ml-5 mr-5" id="loginForm">
+            <form
+              onSubmit={this.handleFormSubmit}
+              className="login-form ml-5 mr-5"
+              id="loginForm"
+            >
               <div className="input-group form-group">
                 <div className="input-group-prepend">
-                  <span className="input-group-text"><i className="fa fa-user field-icon"></i></span>
+                  <span className="input-group-text">
+                    <i className="fa fa-user field-icon"></i>
+                  </span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.username} type="text" className="form-control" name="username" placeholder="username" required />
+                <input
+                  onChange={this.handleChange}
+                  value={this.state.username}
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  placeholder="username"
+                  required
+                />
               </div>
               <div className="input-group form-group">
                 <div className="input-group-prepend">
-                  <span className="input-group-text"><i className="fa fa-key field-icon"></i></span>
+                  <span className="input-group-text">
+                    <i className="fa fa-key field-icon"></i>
+                  </span>
                 </div>
-                <input onChange={this.handleChange} value={this.state.password} type="password" name="password" className="form-control" placeholder="password" required />
+                <input
+                  onChange={this.handleChange}
+                  value={this.state.password}
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  placeholder="password"
+                  required
+                />
               </div>
               <div className="form-group text-center mb-0">
                 <button className="btn btn-login">Log In</button>
@@ -90,31 +123,42 @@ class LoginModal extends Component {
             </form>
           </Modal.Body>
           <div className="row m-0 p-0">
-          <div className="col-4">
-            <hr />
+            <div className="col-4">
+              <hr />
+            </div>
+            <div className="col-4 text-center">
+              <p>Or</p>
+            </div>
+            <div className="col-4">
+              <hr />
+            </div>
           </div>
-          <div className="col-4 text-center">
-            <p>Or</p>
+          <div className="d-flex justify-content-center">
+            {/* <SignupModal /> */}
+            <button
+              type="button"
+              onClick={this.switchModal}
+              className="btn btn-secondary btn-register mb-3"
+            >
+              New Account
+            </button>
           </div>
-          <div className="col-4">
-            <hr />
-          </div>
-        </div>
-        <div className="d-flex justify-content-center">
-        {/* <SignupModal /> */}
-        <button type="button" onClick={this.switchModal} className="btn btn-secondary btn-register mb-3">New Account</button>
-        </div>
         </Modal>
       </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { isSuccessed: state.auth.isSuccessed,
+const mapStateToProps = (state) => {
+  return {
+    isSuccessed: state.auth.isSuccessed,
     message: state.auth.messageLogin,
-    isModalOpen: state.auth.is_login_modal
+    isModalOpen: state.auth.is_login_modal,
   };
-}
+};
 
-export default connect(mapStateToProps, { login, closeLoginModal, switchModalAction})(LoginModal);
+export default connect(mapStateToProps, {
+  login,
+  closeLoginModal,
+  switchModalAction,
+})(LoginModal);
