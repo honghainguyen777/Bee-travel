@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import "./City.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImages, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faImages } from "@fortawesome/free-solid-svg-icons";
 import logo from "../nav/logo_transparent.png";
 import { submitVisitedForm, cityFormRedirect } from "../../actions";
 import { Redirect } from "react-router";

@@ -182,8 +182,7 @@ class Mapbox extends React.Component {
   render() {
     return (
       <div
-        className=" m-2"
-        className="container-city"
+        className=" m-2 container-city"
         ref={this.contentContainer}
       >
         <Search
